@@ -1,0 +1,29 @@
+{
+    "emp": [
+      {
+        "firstName": "John",
+        "lastName": "Doe",
+        "department": "HR",
+        "id": "EMP001"
+      },
+      {
+        "firstName": "Anna",
+        "lastName": "Smith",
+        "department": "Marketing",
+        "id": "EMP002"
+      },
+      {
+        "firstName": "Peter",
+        "lastName": "Jones",
+        "department": "Finance",
+        "id": "EMP003"
+      },
+      {
+        "firstName": "Waris",
+        "lastName": "Rattananimit",
+        "department": "IT",
+        "id": "EMP004"
+      }
+    ]
+  }
+  

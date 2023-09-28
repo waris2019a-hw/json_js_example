@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>List of IT Department Employees</h2>
+
+<ul id="itEmployeeList"></ul>
+
+<script>
+async function loadJsonFile() {
+  try {
+    const response = await fetch('emp.json');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error loading JSON:', error);
+    return null;
+  }
+}
+
+// Function to display IT department employees
+async function displayITDepartmentEmployees() {
+  const jsonData = await loadJsonFile();
+
+  if (!jsonData) {
+    document.getElementById("itEmployeeList").innerHTML = "Failed to load employee data.";
+    return;
+  }
+
+  const itEmployeeList = document.getElementById("itEmployeeList");
+
+  // Clear the existing list
+  itEmployeeList.innerHTML = "";
+
+  // Filter employees based on the IT department
+  const itEmployees = jsonData.emp.filter(employee => employee.department === "IT");
+
+  // Display IT department employees
+  itEmployees.forEach(employee => {
+    const listItem = document.createElement("li");
+    listItem.textContent = `${employee.firstName} ${employee.lastName}, Department: ${employee.department}, ID: ${employee.id}`;
+    itEmployeeList.appendChild(listItem);
+  });
+}
+
+// Load JSON data and display IT department employees when the page loads
+window.onload = function () {
+  displayITDepartmentEmployees();
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Search for Employee by First Name</h2>
+
+<!-- Step 1: Add an input text box -->
+<label for="searchInput">Enter First Name: </label>
+<input type="text" id="searchInput">
+<button onclick="searchEmployee()">Search</button>
+
+<p id="demo"></p>
+
+<script>
+// Step 2: Load JSON data from an external file using Fetch API
+async function loadJsonFile() {
+  try {
+    const response = await fetch('emp.json');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error loading JSON:', error);
+    return null;
+  }
+}
+
+// Step 3: Modify the code to search for an employee
+async function searchEmployee() {
+  const searchValue = document.getElementById("searchInput").value.toLowerCase();
+  const jsonData = await loadJsonFile();
+
+  if (!jsonData) {
+    document.getElementById("demo").innerHTML = "Failed to load employee data.";
+    return;
+  }
+
+  const foundEmployee = jsonData.emp.find(employee => employee.firstName.toLowerCase() === searchValue);
+
+  if (foundEmployee) {
+    document.getElementById("demo").innerHTML =
+    foundEmployee.id + " " + foundEmployee.firstName + " " + 
+    foundEmployee.lastName + " " +foundEmployee.department;
+  } else {
+    document.getElementById("demo").innerHTML = "Employee not found";
+  }
+}
+
+// Load JSON data when the page loads
+window.onload = function () {
+  loadJsonFile().then(data => {
+    if (data) {
+      // You can optionally perform any initial data processing here
+    }
+  });
+}
+</script>
+
+</body>
+</html>

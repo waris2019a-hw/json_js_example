@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>List of Employees</h2>
+
+<ul id="employeeList"></ul>
+
+<script>
+async function loadJsonFile() {
+  try {
+    const response = await fetch('emp.json');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error loading JSON:', error);
+    return null;
+  }
+}
+
+// Function to display all employees
+async function displayEmployees() {
+  const jsonData = await loadJsonFile();
+
+  if (!jsonData) {
+    document.getElementById("employeeList").innerHTML = "Failed to load employee data.";
+    return;
+  }
+
+  const employeeList = document.getElementById("employeeList");
+
+  // Clear the existing list
+  employeeList.innerHTML = "";
+
+  // Loop through the employees and add them to the list
+  jsonData.emp.forEach(employee => {
+    const listItem = document.createElement("li");
+    listItem.textContent = `${employee.firstName} ${employee.lastName}, Department: ${employee.department}, ID: ${employee.id}`;
+    employeeList.appendChild(listItem);
+  });
+}
+
+// Load JSON data and display employees when the page loads
+window.onload = function () {
+  displayEmployees();
+}
+</script>
+
+</body>
+</html>

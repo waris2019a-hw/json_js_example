@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>List of Employees by Department</h2>
+
+<!-- Step 1: Add a combobox for department selection -->
+<label for="departmentSelect">Select Department: </label>
+<select id="departmentSelect">
+  <option value="All">All</option>
+  <option value="HR">HR</option>
+  <option value="Marketing">Marketing</option>
+  <option value="Finance">Finance</option>
+  <option value="IT">IT</option>
+</select>
+<button onclick="displayEmployeesByDepartment()">Show Employees</button>
+
+<ul id="employeeList"></ul>
+
+<script>
+async function loadJsonFile() {
+  try {
+    const response = await fetch('emp.json');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error loading JSON:', error);
+    return null;
+  }
+}
+
+// Step 2: Function to display employees by department
+async function displayEmployeesByDepartment() {
+  const jsonData = await loadJsonFile();
+
+  if (!jsonData) {
+    document.getElementById("employeeList").innerHTML = "Failed to load employee data.";
+    return;
+  }
+
+  const departmentSelect = document.getElementById("departmentSelect");
+  const selectedDepartment = departmentSelect.value;
+
+  const employeeList = document.getElementById("employeeList");
+
+  // Clear the existing list
+  employeeList.innerHTML = "";
+
+  // Filter employees based on the selected department
+  const filteredEmployees = jsonData.emp.filter(employee => {
+    if (selectedDepartment === "All") {
+      return true; // Show all employees when "All" is selected
+    } else {
+      return employee.department === selectedDepartment;
+    }
+  });
+
+  // Display employees
+  filteredEmployees.forEach(employee => {
+    const listItem = document.createElement("li");
+    listItem.textContent = `${employee.firstName} ${employee.lastName}, Department: ${employee.department}, ID: ${employee.id}`;
+    employeeList.appendChild(listItem);
+  });
+}
+
+// Load JSON data when the page loads
+window.onload = function () {
+  loadJsonFile().then(data => {
+    if (data) {
+      // You can optionally perform any initial data processing here
+    }
+  });
+}
+</script>
+
+</body>
+</html>
